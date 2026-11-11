@@ -1,0 +1,13 @@
+{
+  "event_id": "event-synthetic-0",
+  "organization_id": "org-synthetic",
+  "aggregate_id": "garment-synthetic",
+  "revision_id": "r1",
+  "schema_version": 1,
+  "causation_id": "request-synthetic",
+  "occurred_at": "2026-11-05T00:00:00Z",
+  "event_type": "canvas.patch.proposed",
+  "payload": {
+    "patch_id": "patch-synthetic-1"
+  }
+}
