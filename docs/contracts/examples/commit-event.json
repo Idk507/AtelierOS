@@ -1,0 +1,16 @@
+{
+  "event_id": "event-synthetic-1",
+  "organization_id": "org-synthetic",
+  "aggregate_id": "garment-synthetic",
+  "revision_id": "r2",
+  "schema_version": 1,
+  "causation_id": "patch-synthetic-1",
+  "occurred_at": "2026-11-05T00:00:00Z",
+  "event_type": "design.revision.created",
+  "payload": {
+    "parent_revision_id": "r1",
+    "invalidated_artifacts": [
+      "render"
+    ]
+  }
+}
