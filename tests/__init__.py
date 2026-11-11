@@ -1,0 +1,1 @@
+"""AtelierOS acceptance suite."""
