@@ -1,0 +1,52 @@
+{
+  "type": "object",
+  "properties": {
+    "base_revision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "operations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "op": {
+            "enum": [
+              "create",
+              "update",
+              "delete",
+              "group",
+              "move",
+              "transform"
+            ]
+          },
+          "target_component_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "payload": {
+            "type": "object"
+          }
+        },
+        "required": [
+          "op",
+          "target_component_id",
+          "payload"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 1
+    },
+    "justification": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "required": [
+    "base_revision",
+    "operations",
+    "justification"
+  ],
+  "additionalProperties": false,
+  "$schema": "https://json-schema.org/draft/2020-12/schema"
+}
