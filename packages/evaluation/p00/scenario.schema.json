@@ -1,0 +1,457 @@
+{
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "synthetic": {
+      "const": true
+    },
+    "journey": {
+      "enum": [
+        "research-to-design",
+        "material-substitution",
+        "sample-feedback"
+      ]
+    },
+    "organization_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "garment_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "sources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "source_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "source_kind": {
+            "const": "synthetic"
+          },
+          "license_status": {
+            "const": "synthetic_owned"
+          },
+          "retrieved_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "verified_commercial_evidence": {
+            "const": false
+          }
+        },
+        "required": [
+          "source_id",
+          "source_kind",
+          "license_status",
+          "retrieved_at",
+          "verified_commercial_evidence"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 1
+    },
+    "revisions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "parent_revision_id": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "material_id": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "components": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "locked": {
+                  "type": "boolean"
+                },
+                "geometry": {
+                  "type": "array",
+                  "items": {
+                    "type": "integer"
+                  }
+                }
+              },
+              "required": [
+                "id",
+                "locked",
+                "geometry"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "hash": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          }
+        },
+        "required": [
+          "id",
+          "parent_revision_id",
+          "material_id",
+          "components",
+          "hash"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 2
+    },
+    "cases": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "action": {
+            "type": "string",
+            "minLength": 1
+          },
+          "actor_role": {
+            "type": "string",
+            "minLength": 1
+          },
+          "base_revision": {
+            "type": "string",
+            "minLength": 1
+          },
+          "expected": {
+            "type": "string",
+            "minLength": 1
+          },
+          "future_gate": {
+            "enum": [
+              "P01",
+              "P02",
+              "P03",
+              "P04",
+              "P05",
+              "P06",
+              "P07",
+              "P08"
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "action",
+          "actor_role",
+          "base_revision",
+          "expected",
+          "future_gate"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 1
+    },
+    "invalidated_artifacts": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "expected_approved_revision_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "details": {
+      "type": "object"
+    }
+  },
+  "required": [
+    "schema_version",
+    "synthetic",
+    "journey",
+    "organization_id",
+    "garment_id",
+    "sources",
+    "revisions",
+    "cases",
+    "invalidated_artifacts",
+    "expected_approved_revision_id",
+    "details"
+  ],
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "journey": {
+            "const": "material-substitution"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "details": {
+            "type": "object",
+            "properties": {
+              "hard_requirement_min_stretch_percent": {
+                "type": "integer"
+              },
+              "candidates": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "stretch_percent": {
+                      "type": [
+                        "integer",
+                        "null"
+                      ]
+                    },
+                    "price_per_m": {
+                      "type": "string",
+                      "pattern": "^[0-9]+(\\.[0-9]+)?$"
+                    },
+                    "currency": {
+                      "const": "INR"
+                    },
+                    "price_unit": {
+                      "const": "m"
+                    },
+                    "source_id": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "eligibility": {
+                      "enum": [
+                        "compatible",
+                        "incompatible",
+                        "unknown"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "stretch_percent",
+                    "price_per_m",
+                    "currency",
+                    "price_unit",
+                    "source_id",
+                    "eligibility"
+                  ],
+                  "additionalProperties": false
+                },
+                "minItems": 3,
+                "maxItems": 3
+              },
+              "cost": {
+                "type": "object",
+                "properties": {
+                  "candidate_id": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "length_m": {
+                    "type": "string",
+                    "pattern": "^[0-9]+(\\.[0-9]+)?$"
+                  },
+                  "wastage_fraction": {
+                    "type": "string",
+                    "pattern": "^[0-9]+(\\.[0-9]+)?$"
+                  },
+                  "trim": {
+                    "type": "string",
+                    "pattern": "^[0-9]+(\\.[0-9]+)?$"
+                  },
+                  "other": {
+                    "type": "string",
+                    "pattern": "^[0-9]+(\\.[0-9]+)?$"
+                  },
+                  "expected_total": {
+                    "type": "string",
+                    "pattern": "^[0-9]+(\\.[0-9]+)?$"
+                  },
+                  "rounding": {
+                    "const": "ROUND_HALF_UP_2DP"
+                  },
+                  "exclusions": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  }
+                },
+                "required": [
+                  "candidate_id",
+                  "length_m",
+                  "wastage_fraction",
+                  "trim",
+                  "other",
+                  "expected_total",
+                  "rounding",
+                  "exclusions"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "hard_requirement_min_stretch_percent",
+              "candidates",
+              "cost"
+            ],
+            "additionalProperties": false
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "journey": {
+            "const": "research-to-design"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "details": {
+            "type": "object",
+            "properties": {
+              "claim": {
+                "type": "object",
+                "properties": {
+                  "text": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "source_id": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "source_span": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "publication_date": {
+                    "type": "string",
+                    "format": "date"
+                  }
+                },
+                "required": [
+                  "text",
+                  "source_id",
+                  "source_span",
+                  "publication_date"
+                ],
+                "additionalProperties": false
+              },
+              "proposal_status": {
+                "const": "unapproved"
+              },
+              "research_rights": {
+                "const": "synthetic_owned"
+              }
+            },
+            "required": [
+              "claim",
+              "proposal_status",
+              "research_rights"
+            ],
+            "additionalProperties": false
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "journey": {
+            "const": "sample-feedback"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "details": {
+            "type": "object",
+            "properties": {
+              "sample_id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "sample_revision_id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "feedback": {
+                "type": "object",
+                "properties": {
+                  "component_id": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "observation": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "measurement": {
+                    "type": "null"
+                  },
+                  "measurement_origin": {
+                    "type": "null"
+                  }
+                },
+                "required": [
+                  "component_id",
+                  "observation",
+                  "measurement",
+                  "measurement_origin"
+                ],
+                "additionalProperties": false
+              },
+              "requires_professional_review": {
+                "const": true
+              },
+              "expected_technical_approval": {
+                "const": "pending_patternmaker"
+              }
+            },
+            "required": [
+              "sample_id",
+              "sample_revision_id",
+              "feedback",
+              "requires_professional_review",
+              "expected_technical_approval"
+            ],
+            "additionalProperties": false
+          }
+        }
+      }
+    }
+  ],
+  "$schema": "https://json-schema.org/draft/2020-12/schema"
+}
