@@ -1,0 +1,47 @@
+[
+  {
+    "payload": {
+      "a": 1,
+      "b": 2
+    },
+    "sha256": "43258cff783fe7036d8a43033f830adfc60ec037382473548ac742b888292777"
+  },
+  {
+    "payload": {
+      "label": "café இந்தியா",
+      "coordinates": [
+        0,
+        -1,
+        100
+      ]
+    },
+    "sha256": "b300fce19cb993ba8c633fe7ad120d853bea689ed35abdee2d3ebfbcff13df2f"
+  },
+  {
+    "payload": {
+      "components": [
+        {
+          "id": "neckline",
+          "kind": "neckline",
+          "parent_id": null,
+          "geometry": [],
+          "locked": true
+        },
+        {
+          "id": "sleeve",
+          "kind": "sleeve",
+          "parent_id": null,
+          "geometry": [
+            0,
+            0,
+            80,
+            140
+          ],
+          "locked": false
+        }
+      ],
+      "material_id": null
+    },
+    "sha256": "0402b1f723dac8ab1c66b4d139c2026991f148aace81e628f67287c4fc5fb564"
+  }
+]
