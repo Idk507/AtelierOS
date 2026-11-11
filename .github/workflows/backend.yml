@@ -1,0 +1,35 @@
+name: Backend correctness
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  p01:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:18
+        env:
+          POSTGRES_USER: atelier_test
+          POSTGRES_PASSWORD: synthetic-ci-only
+          POSTGRES_DB: atelier_test
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd "pg_isready -U atelier_test -d atelier_test"
+          --health-interval 5s --health-timeout 5s --health-retries 10
+    env:
+      ATELIER_TEST_DATABASE_URL: postgresql+psycopg://atelier_test:synthetic-ci-only@127.0.0.1:5432/atelier_test
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - uses: astral-sh/setup-uv@d0d8abe699bfb85fec6de9f7adb5ae17292296ff
+        with:
+          version: '0.11.32'
+          python-version: '3.12'
+      - run: uv sync --frozen --no-build
+      - run: uv run --frozen ruff check apps/api packages/domain tests migrations
+      - run: uv run --frozen ruff format --check apps/api packages/domain tests migrations
+      - run: uv run --frozen mypy
+      - run: uv run --frozen pytest -q
+      - run: node scripts/verify-hashes.mjs
+      - run: uv run --frozen python scripts/validate_p00.py
+      - run: uv run --frozen python .claude/hooks/validate_scaffold.py
+      - run: uv run --frozen pip-audit
