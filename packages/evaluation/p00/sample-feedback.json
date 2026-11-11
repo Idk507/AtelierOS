@@ -1,0 +1,154 @@
+{
+  "schema_version": 1,
+  "synthetic": true,
+  "journey": "sample-feedback",
+  "organization_id": "org-synthetic",
+  "garment_id": "garment-synthetic",
+  "sources": [
+    {
+      "source_id": "source-synthetic",
+      "source_kind": "synthetic",
+      "license_status": "synthetic_owned",
+      "retrieved_at": "2026-11-05T00:00:00Z",
+      "verified_commercial_evidence": false
+    }
+  ],
+  "revisions": [
+    {
+      "id": "r1",
+      "parent_revision_id": null,
+      "material_id": "fabric-original",
+      "components": [
+        {
+          "id": "neckline",
+          "locked": true,
+          "geometry": [
+            0,
+            0,
+            100,
+            30
+          ]
+        },
+        {
+          "id": "embroidery",
+          "locked": true,
+          "geometry": [
+            20,
+            40,
+            50,
+            60
+          ]
+        },
+        {
+          "id": "sleeve-right",
+          "locked": false,
+          "geometry": [
+            0,
+            0,
+            100,
+            140
+          ]
+        }
+      ],
+      "hash": "e1ce43409dabba5b86e413c3cccb6b8eefd6cf74ea54ab5e03ddb36811aa8f69"
+    },
+    {
+      "id": "r2",
+      "parent_revision_id": "r1",
+      "material_id": "fabric-original",
+      "components": [
+        {
+          "id": "neckline",
+          "locked": true,
+          "geometry": [
+            0,
+            0,
+            100,
+            30
+          ]
+        },
+        {
+          "id": "embroidery",
+          "locked": true,
+          "geometry": [
+            20,
+            40,
+            50,
+            60
+          ]
+        },
+        {
+          "id": "sleeve-right",
+          "locked": false,
+          "geometry": [
+            0,
+            0,
+            80,
+            140
+          ]
+        }
+      ],
+      "hash": "429f0c2ce49f5fc0be6925fe589e9d455067e9ce7948bc1eb031319abd331b39"
+    }
+  ],
+  "cases": [
+    {
+      "id": "SF01",
+      "action": "record observation and propose sleeve revision",
+      "actor_role": "patternmaker",
+      "base_revision": "r1",
+      "expected": "r1 observation; r2 draft; no invented dimensions",
+      "future_gate": "P07"
+    },
+    {
+      "id": "SF02",
+      "action": "infer centimeters from photograph",
+      "actor_role": "vision-agent",
+      "base_revision": "r1",
+      "expected": "unknown measurement; blocked technical claim",
+      "future_gate": "P07"
+    },
+    {
+      "id": "SF03",
+      "action": "client approves construction",
+      "actor_role": "client-reviewer",
+      "base_revision": "r1",
+      "expected": "403 forbidden",
+      "future_gate": "P01"
+    },
+    {
+      "id": "SF04",
+      "action": "attach another tenant photo",
+      "actor_role": "designer",
+      "base_revision": "r1",
+      "expected": "404 inaccessible resource",
+      "future_gate": "P07"
+    },
+    {
+      "id": "SF05",
+      "action": "export without technical signoff",
+      "actor_role": "production",
+      "base_revision": "r1",
+      "expected": "blocked pending patternmaker",
+      "future_gate": "P07"
+    }
+  ],
+  "invalidated_artifacts": [
+    "render",
+    "bom",
+    "spec"
+  ],
+  "expected_approved_revision_id": "r1",
+  "details": {
+    "sample_id": "sample-synthetic-v1",
+    "sample_revision_id": "r1",
+    "feedback": {
+      "component_id": "sleeve-right",
+      "observation": "Wearer reports sleeve restriction in synthetic session",
+      "measurement": null,
+      "measurement_origin": null
+    },
+    "requires_professional_review": true,
+    "expected_technical_approval": "pending_patternmaker"
+  }
+}
