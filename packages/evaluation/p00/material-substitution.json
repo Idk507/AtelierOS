@@ -1,0 +1,237 @@
+{
+  "schema_version": 1,
+  "synthetic": true,
+  "journey": "material-substitution",
+  "organization_id": "org-synthetic",
+  "garment_id": "garment-synthetic",
+  "sources": [
+    {
+      "source_id": "source-synthetic",
+      "source_kind": "synthetic",
+      "license_status": "synthetic_owned",
+      "retrieved_at": "2026-11-05T00:00:00Z",
+      "verified_commercial_evidence": false
+    }
+  ],
+  "revisions": [
+    {
+      "id": "r1",
+      "parent_revision_id": null,
+      "material_id": "fabric-original",
+      "components": [
+        {
+          "id": "neckline",
+          "locked": true,
+          "geometry": [
+            0,
+            0,
+            100,
+            30
+          ]
+        },
+        {
+          "id": "embroidery",
+          "locked": true,
+          "geometry": [
+            20,
+            40,
+            50,
+            60
+          ]
+        },
+        {
+          "id": "sleeve-right",
+          "locked": false,
+          "geometry": [
+            0,
+            0,
+            100,
+            140
+          ]
+        }
+      ],
+      "hash": "e1ce43409dabba5b86e413c3cccb6b8eefd6cf74ea54ab5e03ddb36811aa8f69"
+    },
+    {
+      "id": "r2",
+      "parent_revision_id": "r1",
+      "material_id": "fabric-compatible",
+      "components": [
+        {
+          "id": "neckline",
+          "locked": true,
+          "geometry": [
+            0,
+            0,
+            100,
+            30
+          ]
+        },
+        {
+          "id": "embroidery",
+          "locked": true,
+          "geometry": [
+            20,
+            40,
+            50,
+            60
+          ]
+        },
+        {
+          "id": "sleeve-right",
+          "locked": false,
+          "geometry": [
+            0,
+            0,
+            100,
+            140
+          ]
+        }
+      ],
+      "hash": "c83557c080c518bac2e9d173f1b20ce016b9c4841d2d97fc531de4fa3b660943"
+    }
+  ],
+  "cases": [
+    {
+      "id": "MS01",
+      "action": "select compatible sourced alternative",
+      "actor_role": "designer",
+      "base_revision": "r1",
+      "expected": "r2 unapproved; preserve neckline and embroidery",
+      "future_gate": "P06"
+    },
+    {
+      "id": "MS02",
+      "action": "recommend unknown stretch as compatible",
+      "actor_role": "materials-agent",
+      "base_revision": "r1",
+      "expected": "blocked required evidence",
+      "future_gate": "P06"
+    },
+    {
+      "id": "MS03",
+      "action": "approve r1 after r2 committed",
+      "actor_role": "client-reviewer",
+      "base_revision": "r1",
+      "expected": "409 stale_revision",
+      "future_gate": "P01"
+    },
+    {
+      "id": "MS04",
+      "action": "submit wrong revision hash",
+      "actor_role": "designer",
+      "base_revision": "r2",
+      "expected": "409 approval_hash_mismatch",
+      "future_gate": "P01"
+    },
+    {
+      "id": "MS05",
+      "action": "repeat same accept key and digest",
+      "actor_role": "designer",
+      "base_revision": "r1",
+      "expected": "same response; no duplicate revision",
+      "future_gate": "P01"
+    },
+    {
+      "id": "MS06",
+      "action": "reuse key with different digest",
+      "actor_role": "designer",
+      "base_revision": "r1",
+      "expected": "409 idempotency_conflict",
+      "future_gate": "P01"
+    },
+    {
+      "id": "MS07",
+      "action": "export r1 spec as current r2",
+      "actor_role": "production",
+      "base_revision": "r1",
+      "expected": "blocked stale artifact",
+      "future_gate": "P07"
+    },
+    {
+      "id": "MS08",
+      "action": "concurrent accepts at r1",
+      "actor_role": "designer",
+      "base_revision": "r1",
+      "expected": "single winner; loser 409",
+      "future_gate": "P01"
+    },
+    {
+      "id": "MS09",
+      "action": "replay interrupted provider intent",
+      "actor_role": "worker",
+      "base_revision": "r1",
+      "expected": "reconcile; no duplicate side effect",
+      "future_gate": "P05"
+    },
+    {
+      "id": "MS10",
+      "action": "read garment from other tenant",
+      "actor_role": "designer",
+      "base_revision": "r1",
+      "expected": "404 inaccessible resource",
+      "future_gate": "P01"
+    },
+    {
+      "id": "MS11",
+      "action": "approve as reviewer agent",
+      "actor_role": "reviewer-agent",
+      "base_revision": "r1",
+      "expected": "403 forbidden",
+      "future_gate": "P01"
+    }
+  ],
+  "invalidated_artifacts": [
+    "render",
+    "bom",
+    "spec"
+  ],
+  "expected_approved_revision_id": "r1",
+  "details": {
+    "hard_requirement_min_stretch_percent": 5,
+    "candidates": [
+      {
+        "id": "fabric-compatible",
+        "stretch_percent": 8,
+        "price_per_m": "800.00",
+        "currency": "INR",
+        "price_unit": "m",
+        "source_id": "source-synthetic",
+        "eligibility": "compatible"
+      },
+      {
+        "id": "fabric-incompatible",
+        "stretch_percent": 0,
+        "price_per_m": "500.00",
+        "currency": "INR",
+        "price_unit": "m",
+        "source_id": "source-synthetic",
+        "eligibility": "incompatible"
+      },
+      {
+        "id": "fabric-unknown",
+        "stretch_percent": null,
+        "price_per_m": "600.00",
+        "currency": "INR",
+        "price_unit": "m",
+        "source_id": "source-synthetic",
+        "eligibility": "unknown"
+      }
+    ],
+    "cost": {
+      "candidate_id": "fabric-compatible",
+      "length_m": "3.00",
+      "wastage_fraction": "0.10",
+      "trim": "200.00",
+      "other": "100.00",
+      "expected_total": "2940.00",
+      "rounding": "ROUND_HALF_UP_2DP",
+      "exclusions": [
+        "tax",
+        "shipping",
+        "currency conversion",
+        "labor beyond other line"
+      ]
+    }
+  }
+}
