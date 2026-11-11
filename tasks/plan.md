@@ -1,0 +1,2 @@
+# P00 implementation record
+Deliver contracts and synthetic acceptance fixtures only. Authority: docs/P00_SCOPE.md; domain/API: docs/P00_CONTRACTS.md; decisions: docs/adr; threat supplement: docs/P00_SECURITY_MATRIX.md. Verification: python scripts/validate_p00.py and python .claude/hooks/validate_scaffold.py. No runtime or live provider work. P01 backlog: docs/P01_TASKS.md. Human gate: docs/P00_REVIEW.md.
